@@ -1,0 +1,98 @@
+// $VISIBILITY
+//
+// Visibility helper classes from/until a specific breakpoint e.g. `u-hidden`, `u-hidden-mobile`.
+
+// Visibility display classes to generate.
+$boxe-visibility-variants: (
+  hidden: none,
+  block:  block,
+  inline: inline,
+  flex:   flex,
+  inline-block: inline-block,
+  inline-flex:  inline-flex
+) !default;
+
+// Enable breakpoint based classes.
+$boxe-breakpoint-visibility-enabled: true !default;
+
+// Breakpoint suffix.
+$boxe-visibility-breakpoint-suffix: '-' !default;
+
+// From suffix used to generate `u-hidden-from-tablet` classes.
+$boxe-visibility-from-suffix: '-from' !default;
+
+// Until suffix used to generate `u-hidden-until-tablet` classes.
+$boxe-visibility-until-suffix: '-until' !default;
+
+@mixin visibility($display-classes, $breakpoint: null) {
+  @each $name, $value in $display-classes {
+    .u-#{$name}#{$breakpoint} {
+      display: #{$value};
+    }
+  }
+}
+
+// Generate visibility classes defined in `$boxe-visibility-variants`
+@include visibility($boxe-visibility-variants);
+
+@if (variable-exists(mq-breakpoints) and $boxe-breakpoint-visibility-enabled) {
+  @each $name, $value in $mq-breakpoints {
+    $breakpoint-name: #{$boxe-visibility-breakpoint-suffix}#{$name};
+    @include mq($from: $name) {
+      @include visibility($boxe-visibility-variants, #{$boxe-visibility-from-suffix}#{$breakpoint-name});
+    }
+
+    @include mq($until: $name) {
+      @include visibility($boxe-visibility-variants, #{$boxe-visibility-until-suffix}#{$breakpoint-name});
+    }
+  }
+}
+
+
+// Hide only visually, but have it available for screen readers.
+// Source:
+// https://snook.ca/archives/html_and_css/hiding-content-for-accessibility
+//
+// 1. For long content, line feeds are not interpreted as spaces and small width
+// causes content to wrap 1 word per line.
+// Source:
+// https://medium.com/@jessebeach/beware-smushed-off-screen-accessible-text-5952a4c2cbfe
+//
+// Taken from: h5bp
+.u-hidden-visually {
+  border: 0;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  white-space: nowrap; /* [1] */
+
+
+  // Extend the `u-hidden-visually` class to allow the element to be focusable
+  // when navigated to via keyboard.
+  // Source:
+  // https://www.drupal.org/node/897638
+  //
+  // Taken from: h5bp
+  &--focusable:active,
+  &--focusable:focus {
+    clip: auto;
+    clip-path: none;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    position: static;
+    width: auto;
+    white-space: inherit;
+  }
+}
+
+
+// Hide visually and from screen readers, but maintain layout.
+.u-hidden-invisible {
+  visibility: hidden;
+}

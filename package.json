@@ -1,0 +1,32 @@
+{
+  "name": "boxe-u-visibility",
+  "version": "0.1.0",
+  "description": "boxe visibility classes",
+  "main": "_visibility.scss",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/typin-dev/boxe-u-visibility.git"
+  },
+  "keywords": [
+    "boxe",
+    "visibility",
+    "hide",
+    "show",
+    "display",
+    "block",
+    "inline-block",
+    "flex",
+    "inline-flex",
+    "scss",
+    "css"
+  ],
+  "author": "Eduards Torba",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/typin-dev/boxe-u-visibility/issues"
+  },
+  "homepage": "https://github.com/typin-dev/boxe-u-visibility#readme",
+  "dependencies": {
+    "sass-mq": "~5.0.1"
+  }
+}
